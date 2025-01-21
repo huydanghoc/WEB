@@ -1,0 +1,37 @@
+<root> 
+	<sinhvien>
+		<mssv>K114069876</mssv> 
+		<hoTen>Vô Danh</hoTen>
+		<ngaySinh>1/1/1993</ngaySinh> 
+		<gioiTinh>Nam</gioiTinh> 			
+        <hinh>hinh.png</hinh> 	
+	</sinhvien>
+	<sinhvien>
+		<mssv>K114069877</mssv> 
+		<hoTen>Vô Thường</hoTen>
+		<ngaySinh>1/1/1994</ngaySinh> 
+		<gioiTinh>Nam</gioiTinh> 			
+        <hinh>nam.png</hinh> 	
+	</sinhvien>
+	<sinhvien>
+		<mssv>K114069878</mssv> 
+		<hoTen>Vô Tâm</hoTen>
+		<ngaySinh>1/1/1993</ngaySinh> 
+		<gioiTinh>Nữ</gioiTinh> 			
+        <hinh>nu1.png</hinh> 	
+	</sinhvien>
+	<sinhvien>
+		<mssv>K114069879</mssv> 
+		<hoTen>Vô Nhân Tính</hoTen>
+		<ngaySinh>1/1/1993</ngaySinh> 
+		<gioiTinh>Nữ</gioiTinh> 			
+        <hinh>nu2.png</hinh> 	
+	</sinhvien>
+	<sinhvien>
+		<mssv>K114069880</mssv> 
+		<hoTen>Vô Vọng Tìm Em</hoTen>
+		<ngaySinh>1/1/1994</ngaySinh> 
+		<gioiTinh>Nam</gioiTinh> 			
+        <hinh>nam2.png</hinh> 	
+	</sinhvien>
+</root>

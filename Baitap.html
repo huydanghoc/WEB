@@ -1,0 +1,80 @@
+<html>
+    <head>
+        <title>Tiêu đề trang</title>
+        <script>
+            function napDanhSachSinhVien() {
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET", "dataset.xml", true);
+                xhr.send();
+
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        // Xử lý khi load được data
+                        var xmlDoc = xhr.responseXML;
+                        var sinhVienList = xmlDoc.getElementsByTagName("sinhvien");
+
+                        var tableBody = document.getElementById("danhSachSinhVien");
+                        tableBody.innerHTML = ""; // Xóa nội dung cũ nếu có
+
+                        for (var i = 0; i < sinhVienList.length; i++) {
+                            var mssv = sinhVienList[i].getElementsByTagName("mssv")[0].childNodes[0].nodeValue;
+                            var hoTen = sinhVienList[i].getElementsByTagName("hoTen")[0].childNodes[0].nodeValue;
+                            var ngaySinh = sinhVienList[i].getElementsByTagName("ngaySinh")[0].childNodes[0].nodeValue;
+                            var gioiTinh = sinhVienList[i].getElementsByTagName("gioiTinh")[0].childNodes[0].nodeValue;
+                            var hinh = sinhVienList[i].getElementsByTagName("hinh")[0].childNodes[0].nodeValue;
+
+                            // Tạo dòng mới cho bảng
+                            var tr = document.createElement("tr");
+                            tr.style.backgroundColor = gioiTinh === "Nam" ? "yellow" : "pink"; // Tô màu nền
+
+                            var tdMSSV = document.createElement("td");
+                            tdMSSV.innerHTML = mssv;
+                            tr.appendChild(tdMSSV);
+
+                            var tdHoTen = document.createElement("td");
+                            tdHoTen.innerHTML = hoTen;
+                            tr.appendChild(tdHoTen);
+
+                            var tdNgaySinh = document.createElement("td");
+                            tdNgaySinh.innerHTML = ngaySinh;
+                            tr.appendChild(tdNgaySinh);
+
+                            var tdGioiTinh = document.createElement("td");
+                            tdGioiTinh.innerHTML = gioiTinh;
+                            tr.appendChild(tdGioiTinh);
+
+                            var tdHinh = document.createElement("td");
+                            var img = document.createElement("img");
+                            img.src = "images/" + hinh;
+                            tdHinh.appendChild(img);
+                            tr.appendChild(tdHinh);
+
+                            tableBody.appendChild(tr);
+                        }
+                    } else {
+                        // Xử lý khi không load được data
+                        console.error("Không thể tải dữ liệu từ dataset.xml");
+                    }
+                };
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Danh sách sinh viên</h1>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Mã sinh viên</th>
+                    <th>Họ tên</th>
+                    <th>Ngày sinh</th>
+                    <th>Giới tính</th>
+                    <th>Hình</th>
+                </tr>
+            </thead>
+            <tbody id="danhSachSinhVien">
+                <!-- Danh sách sinh viên sẽ được nạp vào đây -->
+            </tbody>
+        </table>
+        <button onclick="napDanhSachSinhVien()">Nạp danh sách sinh viên</button>
+    </body>
+</html>
