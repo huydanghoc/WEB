@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX Employee List</title>
+    <style>
+        thead th {
+            background-color: blue;
+            color: white;
+            padding: 10px;
+            border: 1px solid black;
+        }
+        table {
+            border-collapse: collapse;
+        }
+        td {
+            border: 1px solid black;
+            padding: 10px;
+        }
+        select {
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <td>Title:</td>
+                <td colspan="2">
+                    <select id="titleDroplist" onchange="filterByTitle()"></select>
+                </td>
+            </tr>
+            <tr>
+                <th>Employee ID</th>
+                <th>Employee Name</th>
+                <th>Phone</th>
+            </tr>
+        </thead>
+        <tbody id="employeeTableBody"></tbody>
+    </table>
+
+    <script>
+        // Load XML and populate droplist with unique titles
+        function loadEmployeeData() {
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", "data.xml", true);
+            xhr.send();
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    const xmlDoc = xhr.responseXML;
+                    const employees = xmlDoc.getElementsByTagName("employee");
+
+                    // Create a Set to store unique titles
+                    const titles = new Set();
+                    for (let i = 0; i < employees.length; i++) {
+                        const title = employees[i].getAttribute("title");
+                        titles.add(title);
+                    }
+
+                    // Populate the droplist
+                    const droplist = document.getElementById("titleDroplist");
+                    titles.forEach((title) => {
+                        const option = document.createElement("option");
+                        option.value = title;
+                        option.textContent = title;
+                        droplist.appendChild(option);
+                    });
+
+                    // Display employees with the first title by default
+                    if (titles.size > 0) {
+                        filterByTitle();
+                    }
+                }
+            };
+        }
+
+        // Filter and display employees by selected title
+        function filterByTitle() {
+            const selectedTitle = document.getElementById("titleDroplist").value;
+
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", "data.xml", true);
+            xhr.send();
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    const xmlDoc = xhr.responseXML;
+                    const employees = xmlDoc.getElementsByTagName("employee");
+
+                    const tableBody = document.getElementById("employeeTableBody");
+                    tableBody.innerHTML = ""; // Clear the table body
+
+                    for (let i = 0; i < employees.length; i++) {
+                        const title = employees[i].getAttribute("title");
+                        if (title === selectedTitle) {
+                            document.getElementById("employeeTableBody").innerHTML +=
+                                `<tr>
+                                    <td>${employees[i].getAttribute("id")}</td>
+                                    <td>${employees[i].getElementsByTagName("name")[0].textContent}</td>
+                                    <td>${employees[i].getElementsByTagName("phone")[0].textContent}</td>
+                                </tr>`;
+                        }
+                    }
+                }
+            };
+        }
+
+        // Load data when the page loads
+        window.onload = loadEmployeeData;
+    </script>
+</body>
+</html>
