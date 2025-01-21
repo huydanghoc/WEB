@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết thông tin sinh viên</title>
+    <style>
+        #studentInfo {
+            width: 300px;
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        #studentInfo td, th {
+            border: 1px solid black;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<table id="studentInfo">
+    <tr>
+        <th colspan="2" style="background-color:#e2efd9; text-align:center;">Chi tiết thông tin sinh viên</th>
+    </tr>
+    <tr>
+        <td>Mã Sinh Viên:</td>
+        <td id="studentID"></td>
+    </tr>
+    <tr>
+        <td>Họ Tên:</td>
+        <td id="studentName"></td>
+    </tr>
+    <tr>
+        <td>Ngày Sinh:</td>
+        <td id="studentBirthday"></td>
+    </tr>
+    <tr>
+        <td>Giới Tính:</td>
+        <td id="studentGender"></td>
+    </tr>
+</table>
+
+<script>
+    let xmlString = `
+    <student>
+        <id>K224060849</id>
+        <name>Lê Trương Gia Huy</name>
+        <birthday>4/7/2004</birthday>
+        <gender>Man</gender>
+    </student>
+    `;
+
+    let parser = new DOMParser();
+    let xmlDoc = parser.parseFromString(xmlString, "text/xml");
+
+    // Extract the student information
+    let studentID = xmlDoc.getElementsByTagName("id")[0].textContent;
+    let studentName = xmlDoc.getElementsByTagName("name")[0].textContent;
+    let studentBirthday = xmlDoc.getElementsByTagName("birthday")[0].textContent;
+    let studentGender = xmlDoc.getElementsByTagName("gender")[0].textContent;
+
+    // Populate the table
+    document.getElementById("studentID").textContent = studentID;
+    document.getElementById("studentName").textContent = studentName;
+    document.getElementById("studentBirthday").textContent = studentBirthday;
+    document.getElementById("studentGender").textContent = studentGender;
+
+    // Add mouse event handlers
+    let rows = document.querySelectorAll("#studentInfo tr");
+    rows.forEach(row => {
+        row.addEventListener("mouseover", function() {
+            row.style.backgroundColor = "blue";
+            row.style.color = "white";
+        });
+        row.addEventListener("mouseout", function() {
+            row.style.backgroundColor = "white";
+            row.style.color = "black";
+        });
+    });
+
+</script>
+
+</body>
+</html>
