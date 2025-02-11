@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hiển thị bảng điểm</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th {
+            border: 1px solid black;
+            padding: 8px;
+            background-color: yellow;
+        }
+
+        td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        #search {
+            margin-bottom: 20px;
+            padding: 8px;
+            width: 300px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <label>Muốn tìm gì:</label>
+    <input type="text" id="search">
+    <table>
+        <thead>
+            <tr>
+                <th rowspan="2">Mã Sinh Viên</th>
+                <th rowspan="2">Tên Sinh Viên</th>
+                <th colspan="3">Điểm thành phần</th>
+                <th rowspan="2">Điểm Trung Bình</th>
+                <th rowspan="2">Kết quả</th>
+            </tr>
+            <tr>
+                <th>Toán</th>
+                <th>Lý</th>
+                <th>Hóa</th>
+            </tr>
+        </thead>
+        <tbody id="studentsData">
+
+        </tbody>
+    </table>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('databaseSinhVien.json')
+                .then(response => response.json())
+                .then(data => {
+                    let tableBody = document.getElementById('studentsData');
+                    data.forEach(student => {
+                        let row = `<tr>
+                                      <td>${student.Ma}</td>
+                                      <td>${student.Ten}</td>
+                                      <td>${student.MonHocs[0].Diem}</td>
+                                      <td>${student.MonHocs[1].Diem}</td>
+                                      <td>${student.MonHocs[2].Diem}</td>
+                                      <td>${((student.MonHocs[0].Diem + student.MonHocs[1].Diem + student.MonHocs[2].Diem) / 3).toFixed(1)}</td>
+                                      <td>${((student.MonHocs[0].Diem + student.MonHocs[1].Diem + student.MonHocs[2].Diem) / 3).toFixed(1) >= 5 ? "Đậu" : "Rớt"}</td>
+                                   </tr>`;
+                        tableBody.innerHTML += row;
+                    });
+                });
+
+            document.getElementById('search').addEventListener('input', function (e) {
+                let searchTerm = e.target.value.toLowerCase();
+                let rows = document.querySelectorAll("#studentsData tr");
+
+                rows.forEach(row => {
+                    let studentName = row.cells[1].innerText.toLowerCase();
+                    if (studentName.includes(searchTerm)) {
+                        row.style.display = "";
+                    } else {
+                        row.style.display = "none";
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

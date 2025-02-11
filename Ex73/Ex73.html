@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách sản phẩm với tìm kiếm</title>
+    <style>
+        
+        table {
+            border-collapse: collapse;
+            width: 600px;
+            margin: 20px 0;
+        }
+
+        th,
+        td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: yellow;
+        }
+
+        #searchBox {
+            margin-bottom: 20px;
+            padding: 8px;
+            width: 300px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Danh sách sản phẩm</h1>
+    <label>Muốn tìm gì:</label>
+    <input type="text" id="searchBox" oninput="timSanPham()">
+
+    <table id="productTable">
+        <thead>
+            <tr>
+                <th>Mã sản phẩm</th>
+                <th>Tên sản phẩm</th>
+                <th>Giá</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+        </tbody>
+    </table>
+
+    <script>
+        var sanphams = [
+            { ma: "sp1", ten: "Cocacola", gia: 15000 },
+            { ma: "sp2", ten: "Pepsi", gia: 25000 },
+            { ma: "sp3", ten: "Sting", gia: 17000 }
+        ];
+
+        // Hiển thị sản phẩm ban đầu
+        hienThiSanPham(sanphams);
+
+        function hienThiSanPham(filteredSanphams) {
+            const tableBody = document.querySelector('#productTable tbody');
+            tableBody.innerHTML = ''; // Xóa bảng cũ trước khi hiển thị dữ liệu mới
+
+            filteredSanphams.forEach(sanpham => {
+                const row = document.createElement('tr');
+
+                // Tạo các ô và gán dữ liệu từ JsonArray
+                const maCell = document.createElement('td');
+                maCell.textContent = sanpham.ma;
+                row.appendChild(maCell);
+
+                const tenCell = document.createElement('td');
+                tenCell.textContent = sanpham.ten;
+                row.appendChild(tenCell);
+
+                const giaCell = document.createElement('td');
+                giaCell.textContent = sanpham.gia;
+                row.appendChild(giaCell);
+
+                // Thêm hàng vào body của bảng
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Hàm tìm kiếm sản phẩm dựa trên chuỗi nhập vào
+        function timSanPham() {
+            const searchInput = document.getElementById("searchBox").value.toLowerCase();
+
+            // Lọc danh sách sản phẩm dựa trên chuỗi tìm kiếm
+            const filteredSanphams = sanphams.filter(sanpham =>
+                sanpham.ten.toLowerCase().includes(searchInput)
+            );
+
+            // Hiển thị danh sách sản phẩm đã được lọc
+            hienThiSanPham(filteredSanphams);
+        }
+    </script>
+</body>
+
+</html>
